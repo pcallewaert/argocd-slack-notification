@@ -47,6 +47,7 @@ REVISION=$(jq -r '.items[] | select( .metadata.name == "'$ARGOCD_APP'") | .statu
 # Get information about git repo
 REPO_URL=$(jq -r '.items[] | select( .metadata.name == "'$ARGOCD_APP'") | .spec.source.repoURL' tmp.json)
 REPO_URL=${REPO_URL%.git*}
+REPO_URL=$(echo $REPO_URL | sed 's#git@github.com:#https://github.com/#')
 REPO_OWNER=$(echo ${REPO_URL##http**.com} | cut -d '/' -f2)
 REPO=$(echo ${REPO_URL##http**.com} | cut -d '/' -f3)
 
